@@ -17,3 +17,27 @@ class TestCalc:
 
     def test_div(self):
         assert self.calc.div(1, 2) == 0.5
+
+    def test_params(self):
+        data = (1, 2)
+        self.calc.add2(data)
+        self.calc.add(*data)
+
+    # 作业 除法
+    def test_dev1(self):
+        assert self.calc.div(4, 2) == 2
+
+    def test_dev2(self):
+        assert self.calc.div(1, 2) == 0.5
+
+    def test_dev3(self):
+        assert self.calc.div(1, 3) == 0.5
+
+    def test_dev4(self):
+        assert self.calc.div(0, 1) == 0.5
+
+    def test_dev5(self):
+        assert self.calc.div(1, 0) == 0.5
+
+    def test_dev6(self):
+        assert self.calc.div(0, 0) == 0.5
