@@ -36,11 +36,10 @@ class TestCalc:
     def teardown_method(self):
         print("teardown_method")
 
-    @pytest.mark.run(order=2)
+    @pytest.mark.demo2
     def test_add(self):
         assert self.calc.add(1, 2) == 3
 
-    @pytest.mark.run(order=2)
     def test_div(self):
         assert self.calc.div(1, 2) == 0.5
 
@@ -102,3 +101,33 @@ class TestCalc:
         data = (a, b)
         self.calc.add2(data)
         self.calc.add(*data)
+
+
+class Demo:
+    kind = 0
+
+    def __init__(self):
+        self.name = ""
+
+
+class TestCalc2:
+    @classmethod
+    def setup_class(cls):
+        print("setup_class")
+
+    def test_demo1(self):
+        demo_1 = Demo()
+        demo_2 = Demo()
+        print(demo_1.kind)
+        print(demo_2.kind)
+        print(Demo.kind)
+
+        Demo.kind = 1
+        print(demo_1.kind)
+        print(demo_2.kind)
+        print(Demo.kind)
+
+        demo_1.kind = 2
+        print(demo_1.kind)
+        print(demo_2.kind)
+        print(Demo.kind)
