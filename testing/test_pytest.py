@@ -1,20 +1,46 @@
-'''
+"""
 
 author: whiteP
 
 modified time: {DATE} {TIME}
 
-'''
+"""
+import pytest
+
 from python.calc import Calc
 
 
+# 整个文件只执行一次
+def setup_module():
+    print("setup_module")
+
+
 class TestCalc:
+    # 类开始执行
+    @classmethod
+    def setup_class(cls):
+        print("setup_class")
+
+    # 每个函数开始执行
+    def setup_method(self):
+        print("setup_method")
+
     def setup(self):
+        print("setup")
         self.calc = Calc()
 
+    # 每个函数结束执行
+    def teardown(self):
+        print("teardown")
+
+    def teardown_method(self):
+        print("teardown_method")
+
+    @pytest.mark.run(order=2)
     def test_add(self):
         assert self.calc.add(1, 2) == 3
 
+    @pytest.mark.run(order=2)
     def test_div(self):
         assert self.calc.div(1, 2) == 0.5
 
@@ -65,3 +91,14 @@ class TestCalc:
 
     def test_add4(self):
         assert self.calc.add(-1, -2) == -0.3
+
+    # 参数化
+    @pytest.mark.demo
+    @pytest.mark.parametrize("a, b", [
+        (1, 2), (2, 3), (3, 4)
+    ])
+    def test_params(self, a, b):
+        print("params")
+        data = (a, b)
+        self.calc.add2(data)
+        self.calc.add(*data)
