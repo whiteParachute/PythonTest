@@ -6,6 +6,7 @@ modified time: {DATE} {TIME}
 
 """
 import pytest
+import yaml
 
 from python.calc import Calc
 
@@ -15,11 +16,23 @@ def setup_module():
     print("setup_module")
 
 
+# @pytest.fixture(scope="module")
+def data():
+    with open("test_pytest.data.yaml") as f:
+        return yaml.load(f)
+
+
+def steps():
+    with open("test_pytest.steps.yaml") as f:
+        return yaml.load(f)
+
+
 class TestCalc:
     # 类开始执行
     @classmethod
     def setup_class(cls):
         print("setup_class")
+        cls.calc = Calc()
 
     # 每个函数开始执行
     def setup_method(self):
@@ -93,14 +106,21 @@ class TestCalc:
 
     # 参数化
     @pytest.mark.demo
-    @pytest.mark.parametrize("a, b", [
-        (1, 2), (2, 3), (3, 4)
-    ])
-    def test_params(self, a, b):
+    @pytest.mark.parametrize("a, b, r", data())
+    def test_params(self, a, b, r):
         print("params")
         data = (a, b)
-        self.calc.add2(data)
-        self.calc.add(*data)
+        assert self.calc.add2(data) == r
+        assert self.calc.add(*data) == r
+
+    # 测试步骤数据驱动
+    def steps(self, data, r):
+        test_steps = steps()
+        for step in test_steps:
+            if step == "add":
+                assert self.calc.add(*data) == r
+            elif step == "add2":
+                assert self.calc.add2(data) == r
 
 
 class Demo:
