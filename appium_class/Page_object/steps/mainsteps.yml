@@ -1,0 +1,4 @@
+# self.find(MobileBy.XPATH, "//*[@text='通讯录']").click()
+- by: xpath
+  locator: "//*[@text='通讯录']"
+  action: click
